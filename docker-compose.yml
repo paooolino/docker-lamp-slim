@@ -6,3 +6,16 @@ services:
       - "8000:80"
     volumes:
       - ./web:/var/www/html
+      
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_DATABASE: app
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
