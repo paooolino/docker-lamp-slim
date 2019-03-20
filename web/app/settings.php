@@ -18,9 +18,9 @@ return [
 
     // Database settings
     'DB' => [
-      "HOST" => 'localhost',
-      "USER" => 'root',
-      "PASS" => '',
+      "HOST" => 'db',
+      "USER" => 'app',
+      "PASS" => 'app',
       "DBNAME" => 'app',
     ],
   ],

@@ -1,4 +1,7 @@
 <?php
+use \PDO;
+use \PDOException;
+
 $container = $app->getContainer();
 
 // -----------------------------------------------------------------------------
@@ -20,6 +23,23 @@ $container['view'] = function ($c) {
   return $view;
 };
 
+$container['pdo'] = function($c) {
+  try {
+    $pdo = new PDO(
+      'mysql:host=' . $c->settings['DB']['HOST'] . ';dbname=' . $c->settings['DB']['DBNAME'],
+      $c->settings['DB']['USER'], 
+      $c->settings['DB']['PASS'],
+      array(
+        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8",
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+      )
+    );
+    return $pdo;
+  } catch (PDOException $e) {
+    die("db connection error");
+  }
+}
+
 // -----------------------------------------------------------------------------
 // Middleware factories
 // -----------------------------------------------------------------------------
@@ -35,3 +55,4 @@ $container['App\Middleware\MiddlewareClassName'] = function ($c) {
 $container['App\Controller\RouteHome'] = function ($c) {
   return new App\Controller\RouteHome($c->view);
 };
+
