@@ -8,14 +8,23 @@ services:
       - ./web:/var/www/html
       
   db:
-    image: mariadb
+    image: mariadb:10.4
     restart: always
     environment:
+      MYSQL_ROOT_PASSWORD: someapp
       MYSQL_DATABASE: app
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
+    volumes:
+      - dbdata:/var/lib/mysql
 
   adminer:
     image: adminer
+    depends_on:
+      - db
     restart: always
     ports:
       - "8080:8080"
+      
+volumes:
+  dbdata:
